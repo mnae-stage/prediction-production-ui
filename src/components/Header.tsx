@@ -1,0 +1,112 @@
+import { useState, useEffect } from 'react';
+import { Menu, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+const navLinks = [
+  { label: 'Accueil', href: '#accueil' },
+  { label: 'Services', href: '#services' },
+  { label: 'Actualités', href: '#actualites' },
+  { label: 'Contact', href: '#contact' },
+];
+
+export function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <header
+      className={cn(
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        isScrolled
+          ? 'bg-card/95 backdrop-blur-md shadow-md py-2'
+          : 'bg-transparent py-4'
+      )}
+    >
+      <div className="container mx-auto px-4">
+        <nav className="flex items-center justify-between">
+          {/* Logo */}
+          <a href="#accueil" className="flex items-center gap-3 group">
+            <div className="w-12 h-12 rounded-full overflow-hidden transition-transform group-hover:scale-110">
+              <img
+                src="/mnae-logo.png"         
+                alt="Logo MAE"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <div
+              className={cn(
+                'hidden sm:block transition-colors',
+                isScrolled ? 'text-foreground' : 'text-primary-foreground'
+              )}
+            >
+              <p className="font-display font-bold text-sm leading-tight">Ministère de l'Agriculture</p>
+              <p className="text-xs opacity-80">et de l'Élevage</p>
+            </div>
+          </a>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className={cn(
+                  'px-4 py-2 rounded-lg font-medium transition-all',
+                  isScrolled
+                    ? 'text-foreground hover:bg-muted'
+                    : 'text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10'
+                )}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          {/* CTA Button */}
+          <div className="hidden lg:block"></div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={cn(
+              'lg:hidden p-2 rounded-lg transition-colors',
+              isScrolled
+                ? 'text-foreground hover:bg-muted'
+                : 'text-primary-foreground hover:bg-primary-foreground/10'
+            )}
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </nav>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden mt-4 pb-4 animate-fade-in">
+            <div className="bg-card rounded-xl shadow-lg border border-border p-4 space-y-2">
+              {navLinks.map((link) => (
+                <div key={link.label}>
+                  <a
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block px-4 py-3 rounded-lg font-medium text-foreground hover:bg-muted transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+}

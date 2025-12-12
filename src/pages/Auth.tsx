@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import '@/style/login.css'
 
 import { Leaf, Mail, Lock, Sprout, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
 
@@ -188,7 +189,7 @@ const Auth = () => {
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff /> : <Eye />}
+                    {showPassword ? <Eye /> : <EyeOff />}
                   </button>
                 </div>
                 <p className="text-sm text-destructive">{form.formState.errors.password?.message as string}</p>
@@ -216,7 +217,7 @@ const Auth = () => {
 
         {/* BACK TO HOME */}
         <div className="text-center mt-4">
-          <a href="/" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-2">
+          <a href="/" className="text-sm text-muted-foreground text-yellow-900 hover:text-foreground inline-flex items-center gap-2">
             <ArrowRight className="w-4 h-4 rotate-180" />
             Retour à l'accueil
           </a>

@@ -52,8 +52,15 @@ function FeaturedNews({ article }: { article: typeof news[0] }) {
         'group relative bg-hero-gradient rounded-2xl p-6 sm:p-8 lg:p-10 overflow-hidden hover-lift opacity-0',
         isVisible && 'animate-fade-up'
       )}
+   
     >
-      {/* Background decoration */}
+      {/*  style={{
+        backgroundImage: "url('/public/activité.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+       Background decoration */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/20 rounded-full blur-3xl" />
       
       <div className="relative z-10">
@@ -86,6 +93,14 @@ function FeaturedNews({ article }: { article: typeof news[0] }) {
             <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover/btn:translate-x-1" />
           </Button>
         </div>
+        <div className="flex justify-center mb-3">
+            <img src="/public/activité.png" alt=""
+             style={{
+               width: '60%',
+               height: 'auto',
+               borderRadius: '12px',
+             }} />
+          </div>
       </div>
     </div>
   );
@@ -102,6 +117,7 @@ function NewsCard({ article, index }: { article: typeof news[0]; index: number }
         isVisible && 'animate-fade-up',
         `stagger-${index + 1}`
       )}
+      
     >
       <span className="inline-block px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-3">
         {article.category}
@@ -135,7 +151,8 @@ export function NewsSection() {
   const otherArticles = news.filter(n => !n.featured);
 
   return (
-    <section id="actualites" className="py-20 sm:py-28 bg-muted/50">
+    <section id="actualites" 
+    className="py-20 sm:py-28 bg-muted/50">
       <div className="container mx-auto px-4">
         <div 
           ref={ref}

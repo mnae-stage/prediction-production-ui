@@ -125,7 +125,7 @@ export function Footer() {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm text-primary-foreground/60 text-center sm:text-left">
-              © 2024 Ministère de l'Agriculture et de l'Élevage - République de Madagascar. 
+              © 2025 Ministère de l'Agriculture et de l'Élevage - République de Madagascar. 
               Tous droits réservés.
             </p>
             

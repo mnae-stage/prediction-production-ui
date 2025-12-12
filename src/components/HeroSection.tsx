@@ -1,6 +1,9 @@
 import { ArrowRight, Leaf, Tractor, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+const redirectinoToSignUp = () => {
+  window.location.href = '/auth';
+}
 export function HeroSection() {
   return (
     <section id="accueil" className="relative min-h-screen flex items-center overflow-hidden bg-hero-gradient">
@@ -12,16 +15,16 @@ export function HeroSection() {
       </div>
 
       {/* Floating Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none ">
         <Leaf className="absolute top-1/4 left-[15%] w-12 h-12 text-secondary/40 animate-float" />
         <Leaf className="absolute top-1/3 right-[20%] w-8 h-8 text-secondary/30 animate-float stagger-2" />
-        <Tractor className="absolute bottom-1/4 left-[10%] w-16 h-16 text-primary-foreground/20 animate-float stagger-3" />
+        <Tractor className="absolute bottom-1/4 left-[10%] w-16 h-16 text-primary-foreground/20 animate-float stagger-3 " />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
-          <div className="text-center lg:text-left">
+          <div className="text-center lg:text-left mt-28">
 
             <h1 className="text-2xl sm:text-3xl lg:text-5xl xl:text-4xl font-display font-bold text-primary-foreground leading-tight mb-6 animate-fade-up stagger-1">
               <span className="text-gradient">Riziculture</span> moderne à Itasy
@@ -34,17 +37,17 @@ export function HeroSection() {
 
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-up stagger-3">
-              <Button className="btn-hero group">
+              <Button className="btn-hero group" onClick={redirectinoToSignUp}>
                 S'incrire
                 <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
               </Button>
-              <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold shadow-gold">
+              <Button onClick={redirectinoToSignUp} className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold shadow-gold">
                 Se Connecter
               </Button>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-primary-foreground/20 animate-fade-up stagger-4">
+            <div className="grid grid-cols-3 gap-4 mt-40 pt-8 border-t border-primary-foreground/20 animate-fade-up stagger-4">
               {[
                 { icon: Users, value: '80%', label: 'Population rurale' },
                 { icon: Leaf, value: '25M', label: 'Hectares cultivables' },
@@ -84,7 +87,7 @@ export function HeroSection() {
                   <p className="text-xl font-bold text-foreground">+15%</p>
                 </div>
                 <div className="absolute -bottom-4 -left-4 bg-card rounded-xl p-4 shadow-lg animate-float stagger-2">
-                  <p className="text-xs text-muted-foreground">Agriculteurs formés</p>
+                  <p className="text-xs text-muted-foreground">Riziculteur</p>
                   <p className="text-xl font-bold text-foreground">50K+</p>
                 </div>
               </div>

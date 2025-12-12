@@ -12,14 +12,51 @@ const navLinks = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [currentHash, setCurrentHash] = useState(window.location.hash || '#accueil');
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+
+      // Détecter quelle section est visible
+      let currentSection = '#accueil';
+      navLinks.forEach(link => {
+        const id = link.href.replace('#', '');
+        const section = document.getElementById(id);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 100 && rect.bottom > 100) {
+            currentSection = link.href;
+          }
+        }
+      });
+      setCurrentHash(currentSection);
     };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    const handleHashChange = () => {
+      setCurrentHash(window.location.hash || '#accueil');
+    };
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('hashchange', handleHashChange);
+    };
   }, []);
+
+  // Fonction pour scroll smooth
+  const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    event.preventDefault(); 
+    const id = href.replace('#', '');
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsMobileMenuOpen(false); 
+    setCurrentHash(href);
+  };
 
   return (
     <header
@@ -33,10 +70,10 @@ export function Header() {
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#accueil" className="flex items-center gap-3 group">
+          <a href="#accueil" onClick={(e) => handleNavClick(e, '#accueil')} className="flex items-center gap-3 group">
             <div className="w-12 h-12 rounded-full overflow-hidden transition-transform group-hover:scale-110">
               <img
-                src="/mnae-logo.png"         
+                src="/mnae-logo.png"
                 alt="Logo MAE"
                 className="w-full h-full object-cover"
               />
@@ -54,21 +91,32 @@ export function Header() {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={cn(
-                  'px-4 py-2 rounded-lg font-medium transition-all',
-                  isScrolled
-                    ? 'text-foreground hover:bg-muted'
-                    : 'text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10'
-                )}
-              >
-                {link.label}
-              </a>
-            ))}
+          <div className="hidden lg:flex items-center gap-1 relative">
+            {navLinks.map((link) => {
+              const isActive = currentHash === link.href;
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={cn(
+                    'px-4 py-2 rounded-lg font-medium transition-all relative',
+                    isScrolled
+                      ? 'text-foreground hover:bg-muted'
+                      : 'text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10'
+                  )}
+                >
+                  {link.label}
+                  {/* Ligne orange animée */}
+                  <span
+                    className={cn(
+                      'absolute left-0 bottom-0 h-1 bg-orange-500 rounded transition-all duration-500',
+                      isActive ? 'w-full animate-slide-in' : 'w-0'
+                    )}
+                  />
+                </a>
+              );
+            })}
           </div>
 
           {/* CTA Button */}
@@ -96,7 +144,7 @@ export function Header() {
                 <div key={link.label}>
                   <a
                     href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className="block px-4 py-3 rounded-lg font-medium text-foreground hover:bg-muted transition-colors"
                   >
                     {link.label}
